@@ -24,6 +24,8 @@ Return a list of installed packages or nil for every skipped package."
 (unless package-archive-contents
   (package-refresh-contents))
 
+(package-initialize)
+
 (ensure-package-installed
  'flyspell
  ;; 'auto-complete
