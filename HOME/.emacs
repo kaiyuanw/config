@@ -13,5 +13,5 @@
   "Load a file in current user's configuration directory"
   (load-file (expand-file-name file user-init-dir)))
 
-(load-user-file "~/cfg/emacs")
+(load-user-file "###DIR###/emacs")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
