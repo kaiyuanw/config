@@ -1,0 +1,60 @@
+[user]
+        email = prodigy.sov@gmail.com
+        name = Pengyu Nie
+
+# For writing commit msg in emacs
+[core]
+        editor = emacsclient
+
+[push]
+        default = simple
+
+[alias]
+        # list aliases
+        alias = "!git config -l | grep alias | cut -c 7-"
+        
+        # log
+        l = log --oneline
+        l1 = log --oneline -1
+        l2 = log --oneline -2
+        ll = log --oneline --numstat
+        ll1 = log --oneline --numstat -1
+        ll2 = log --oneline --numstat -2
+        fl = log -u
+
+        # add
+        a = add
+        ap = add -p
+
+        # commit
+        c = commit --verbose
+        cm = commit -m
+        amend = commit --amend --verbose
+
+        # diff
+        d = diff
+        ds = diff --stat
+        dc = diff --cached
+
+        # status
+        s = status
+
+        # checkout
+        co = checkout
+        cb = checkout -b
+
+        # branch
+        br = branch
+        b = branch --list -r
+
+        # ls-files
+        f = "!git ls-files | grep -i"
+
+        # clone
+        cl = clone
+
+        # reset
+        r = reset
+        r1 = reset HEAD^
+        r2 = reset HEAD^^
+        
