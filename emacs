@@ -34,6 +34,7 @@ Return a list of installed packages or nil for every skipped package."
  'gscholar-bibtex
  'google-this
  'cuda-mode
+ 'edit-server
  )
     
 (package-initialize)
@@ -44,6 +45,10 @@ Return a list of installed packages or nil for every skipped package."
 (require 'server)
 (unless (server-running-p)
   (server-start))
+
+;; edit-server
+(require 'edit-server)
+(edit-server-start)
 
 ;; flyspell
 (add-hook 'text-mode-hook 'flyspell-mode)
