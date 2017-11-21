@@ -2,9 +2,11 @@
 
 # shared .bashrc
 
+_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
 # machine specific behaviour
-if [[ -f ~/cfg/machine.sh ]]; then
-        . ~/cfg/machine.sh
+if [[ -f ${_DIR}/machine.sh ]]; then
+        . ${_DIR}/machine.sh
 fi
 
 # user local program
@@ -17,8 +19,8 @@ if [[ -z "${SSH_AUTH_SOCK}" ]]; then
 fi
 
 # shared aliases
-if [[ -f ~/cfg/bash_aliases ]]; then
-        . ~/cfg/bash_aliases
+if [[ -f ${_DIR}/bash_aliases ]]; then
+        . ${_DIR}/bash_aliases
 fi
 
 # bashutil
