@@ -58,6 +58,21 @@ export PATH="$JAVA_HOME/bin:$PATH"
 ## editor
 export EDITOR="emacsclient -n"
 
+## pager
+if [[ $INSIDE_EMACS ]]; then
+        if [[ -e ~/opt/emacs-pager ]]; then
+                export PAGER="emacs-pager"
+        else
+                export PAGER="cat"
+        fi
+elif [[ -x "$(which less)" ]]; then
+        export PAGER="$(which less)"
+        export LESS="-isR"
+        alias lv="less"
+else
+        export PAGER="/bin/more"
+fi
+
 ## history
 # Undocumented feature which sets the size to "unlimited".
 # http://stackoverflow.com/questions/9457233/unlimited-bash-history

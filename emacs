@@ -35,8 +35,15 @@ Return a list of installed packages or nil for every skipped package."
  'google-this
  'cuda-mode
  'edit-server
+ 'irony
+ 'company-irony
+ 'quelpa
  )
-    
+
+(package-initialize)
+
+(quelpa '(emacs-pager :repo "mbriggs/emacs-pager" :fetcher github))
+
 (package-initialize)
 
 ;;;; COSTUMIZE
@@ -54,7 +61,7 @@ Return a list of installed packages or nil for every skipped package."
 (add-hook 'text-mode-hook 'flyspell-mode)
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 
-; keybinding
+                                        ; keybinding
 (global-set-key (kbd "<f8>") 'ispell-word)
 ;;(global-set-key (kbd "C-S-<f8>") 'flyspell-mode)
 (global-set-key (kbd "M-<f8>") 'flyspell-buffer)
@@ -96,11 +103,11 @@ Return a list of installed packages or nil for every skipped package."
 ;; COMPlete ANYthing
 (add-hook 'after-init-hook 'global-company-mode)
 
-; show time
+                                        ; show time
 (setq company-idle-delay 0.3)
 (setq company-echo-delay 0)
 
-; color
+                                        ; color
 (custom-set-faces
  '(company-preview
    ((t (:foreground "brightblack" :underline t))))
@@ -126,16 +133,16 @@ Return a list of installed packages or nil for every skipped package."
 
 ;; mode bar
 
-; end chars
+                                        ; end chars
 ;; (setq mode-line-end-spaces "☯")
 (setq mode-line-end-spaces "X")
 
-; Line & Column number
+                                        ; Line & Column number
 (line-number-mode 1)
 (column-number-mode 1)
 (size-indication-mode 1)
 
-; color
+                                        ; color
 (set-face-foreground 'mode-line "black")
 (set-face-background 'mode-line "#afffff")
 (set-face-foreground 'mode-line-inactive "black")
@@ -163,12 +170,21 @@ Return a list of installed packages or nil for every skipped package."
 
 ;; SHELL
 
-; Shell indentation 8
+                                        ; Shell indentation 8
 (setq sh-basic-offset 8
       sh-indentation 8
       ;; case
       sh-indent-for-case-label 0
       sh-indent-for-case-alt '+)
 
-; Shell pager (fix less & more)
-(setenv "PAGER" "emacs-pipe")
+                                        ; Shell pager (fix less & more)
+(add-to-list 'auto-mode-alist '("\\.emacs-pager$" . emacs-pager-mode))
+
+;; C++
+
+                                        ; irony
+(add-hook 'c++-mode-hook 'irony-mode)
+(add-hook 'c-mode-hook 'irony-mode)
+(add-hook 'objc-mode-hook 'irony-mode)
+
+(add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
