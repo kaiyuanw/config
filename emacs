@@ -38,6 +38,7 @@ Return a list of installed packages or nil for every skipped package."
  'irony
  'company-irony
  'quelpa
+ 'highlight-parentheses
  )
 
 (package-initialize)
@@ -73,6 +74,10 @@ Return a list of installed packages or nil for every skipped package."
 ;;   (ispell-word)
 ;;   )
 ;; (global-set-key (kbd "<f9>") 'flyspell-check-next-highlighted-word)
+
+;; parentheses
+(add-hook 'prog-mode-hook 'highlight-parentheses-mode)
+(add-hook 'prog-mode-hook 'show-paren-mode)
 
 ;; eval-buffer
 (global-set-key (kbd "M-<RET>") 'eval-buffer)
