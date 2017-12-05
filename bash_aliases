@@ -71,7 +71,8 @@ alias gcloud_test='${HOME}/opt/google-cloud-sdk/bin/dev_appserver.py'
 alias web='google-chrome'
 
 # git
-alias g='git status -s'
+alias g='git status -s; git status -s | rev | cut -d " " -f 1 | rev; git status -s | rev | cut -d " " -f 1 | rev | xargs echo'
+alias gpush='git fetch && git rebase && git push'
 
 # make
 alias cleanmake='make clean && make'
