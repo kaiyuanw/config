@@ -54,6 +54,16 @@ fi
 
 export PATH="$JAVA_HOME/bin:$PATH"
 
+# llvm
+export LLVM_SRC_PATH="${HOME}/opt/llvm/llvm_repo"
+export LLVM_BUILD_PATH="${HOME}/opt/llvm/build"
+
+export LLVM_SRC_INC="${LLVM_SRC_PATH}/include"
+export LLVM_BUILD_INC="${LLVM_BUILD_PATH}/include"
+
+export CLANG_SRC_INC="${LLVM_SRC_PATH}/tools/clang/include"
+export CLANG_BUILD_INC="${LLVM_BUILD_PATH}/tools/clang/include"
+
 # environment
 ## editor
 export EDITOR="emacsclient -n"
