@@ -12,12 +12,12 @@ function ssh-refresh() {
 }
 
 # UT Servers
-#xps1_ip="10.157.90.131"
-xps1_ip="xps1.ece.utexas.edu"
+xps1_ip="10.157.90.131"
+#xps1_ip="xps1.ece.utexas.edu"
 alias xps1="ssh -A -p 1453 pynie@${xps1_ip}"
 alias xps1_X="ssh -A -p 1453 pynie@${xps1_ip} -X"
-#xps2_ip="10.157.90.132"
-xps2_ip="xps2.ece.utexas.edu"
+xps2_ip="10.157.90.132"
+#xps2_ip="xps2.ece.utexas.edu"
 alias xps2="ssh -A -p 1453 pynie@${xps2_ip}"
 alias xps2_X="ssh -A -p 1453 pynie@${xps2_ip} -X"
 #istanbul_ip="10.157.90.137"
@@ -72,7 +72,7 @@ alias web='google-chrome'
 
 # git
 alias g='git status -s; git status -s | rev | cut -d " " -f 1 | rev; git status -s | rev | cut -d " " -f 1 | rev | xargs echo'
-alias gpush='git fetch && git rebase && git push'
+alias gg='git fetch && git rebase && git push'
 
 # make
 alias cleanmake='make clean && make'

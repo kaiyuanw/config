@@ -101,3 +101,6 @@ export TERM=xterm-256color
 
 # Android Studio
 export ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
+
+# google chromium
+export PATH="$PATH:$HOME/opt/depot_tools"
