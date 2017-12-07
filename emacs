@@ -35,8 +35,8 @@ Return a list of installed packages or nil for every skipped package."
  'google-this
  'cuda-mode
  'edit-server
- 'irony
- 'company-irony
+ ;; 'irony
+ ;; 'company-irony
  'quelpa
  'highlight-parentheses
  )
