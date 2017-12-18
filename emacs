@@ -172,6 +172,10 @@ Return a list of installed packages or nil for every skipped package."
 (setq tab-width 4)
 (setq c-basic-offset 4)
 (setq cperl-indent-level 4)
+(add-hook 'json-mode-hook
+          (lambda  ()
+            (make-local-variable 'js-indent-level)
+            (setq js-indent-level 4)))
 
 ;; SHELL
 
