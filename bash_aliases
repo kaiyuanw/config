@@ -12,20 +12,84 @@ function ssh-refresh() {
 }
 
 # UT Servers
-xps1_ip="10.157.90.131"
-#xps1_ip="xps1.ece.utexas.edu"
-alias xps1="ssh -A -p 1453 pynie@${xps1_ip}"
-alias xps1_X="ssh -A -p 1453 pynie@${xps1_ip} -X"
-xps2_ip="10.157.90.132"
-#xps2_ip="xps2.ece.utexas.edu"
-alias xps2="ssh -A -p 1453 pynie@${xps2_ip}"
-alias xps2_X="ssh -A -p 1453 pynie@${xps2_ip} -X"
-#istanbul_ip="10.157.90.137"
-istanbul_ip="istanbul.ece.utexas.edu"
-alias istanbul="ssh -A -p 1453 pynie@${istanbul_ip}"
-alias istanbul_X="ssh -A -p 1453 pynie@${istanbul_ip} -X"
-alias cozy='ssh -A -p 2002 pynie@cozy.ece.utexas.edu'
-alias cozy_X='ssh -A -p 2002 pynie@cozy.ece.utexas.edu -X'
+ssh_username_default="pynie"
+ssh_options_default=""
+
+declare -A ssh_ip=(
+        ["xps1"]="10.157.90.131" # "xps1.ece.utexas.edu"
+        ["xps2"]="10.157.90.132" # "xps2.ece.utexas.edu"
+        ["istanbul"]="10.157.90.137" # "istanbul.ece.utexas.edu"
+        ["cozy"]="cozy.ece.utexas.edu"
+)
+declare -A ssh_port=(
+        ["xps1"]="1453"
+        ["xps2"]="1453"
+        ["istanbul"]="1453"
+        ["cozy"]="2002"
+)
+
+function cs() {
+        local funcname=${FUNCNAME[0]}
+        function usage() {
+                printf "usage: ${funcname} [target] (-u [username] -X)\n"
+        }
+        function error() {
+                printf "error: ${1}\n" 1>&2
+                usage 1>&2
+        }
+        
+        if [[ $# -lt 1 ]]; then error "no arguments supplied"; return; fi
+        local to="${1}"; shift
+
+        local ip="${ssh_ip[$to]}"
+        if [[ -z "$ip" ]]; then
+                ip="$to"
+        fi
+        local port="${ssh_port[$to]}"
+
+        # parse options
+        local username="${ssh_username_default}"
+        local options="${ssh_options_default}"
+        while [[ $# -ge 1 ]]; do
+                case ${1} in
+                -h|-\?|--help)
+                        usage; return
+                        ;;
+                -u|--user)
+                        if [[ $# -ge 2 ]]; then
+                                username="${2}"
+                                shift
+                        else
+                                error "no username supplied"; return
+                        fi
+                        ;;
+                -X)
+                        options="${options} -X"
+                        ;;
+                -p|--port)
+                        if [[ $# -ge 2 ]]; then
+                                port="${2}"
+                                shift
+                        else
+                                error "no port supplied"; return
+                        fi
+                        ;;
+                esac
+        done
+
+        local options_port=""
+        if [[ ! -z "${port}" ]]; then
+                options_port="-p ${port}"
+        fi
+        options="${options} ${options_port}"
+
+        ssh -A ${options} "${username}@${ip}"
+}
+
+alias xps1="cs xps1"
+alias xps2="cs xps2"
+alias istanbul="cs istanbul"
+alias cozy="cs cozy"
 
 function hgclonework() {
         local name="${1}"; shift
