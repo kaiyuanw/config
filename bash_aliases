@@ -28,32 +28,36 @@ declare -A ssh_port=(
         ["cozy"]="2002"
 )
 
+# connect ssh
+
 function cs() {
         local funcname=${FUNCNAME[0]}
         function usage() {
-                printf "usage: ${funcname} [target] (-u [username] -X)\n"
+                printf "usage: ${funcname} [ip] (-u [username] -X -p [port])\n"
+                printf "registered ip names: ${!ssh_ip[*]}\n"
         }
         function error() {
                 printf "error: ${1}\n" 1>&2
                 usage 1>&2
         }
         
-        if [[ $# -lt 1 ]]; then error "no arguments supplied"; return; fi
-        local to="${1}"; shift
-
-        local ip="${ssh_ip[$to]}"
-        if [[ -z "$ip" ]]; then
-                ip="$to"
-        fi
-        local port="${ssh_port[$to]}"
-
         # parse options
         local username="${ssh_username_default}"
+        local port=""
         local options="${ssh_options_default}"
+        local args=()
         while [[ $# -ge 1 ]]; do
                 case ${1} in
                 -h|-\?|--help)
                         usage; return
+                        ;;
+                -p|--port)
+                        if [[ $# -ge 2 ]]; then
+                                port="${2}"
+                                shift
+                        else
+                                error "no port supplied"; return
+                        fi
                         ;;
                 -u|--user)
                         if [[ $# -ge 2 ]]; then
@@ -66,16 +70,30 @@ function cs() {
                 -X)
                         options="${options} -X"
                         ;;
-                -p|--port)
-                        if [[ $# -ge 2 ]]; then
-                                port="${2}"
-                                shift
-                        else
-                                error "no port supplied"; return
-                        fi
+
+                --)
+                        # no more arguments
+                        shift; break
                         ;;
+                -*)
+                        error "unrecognized argument ${1}"; return
+                        ;;
+                *)
+                        args+=(${1})
                 esac
+                shift
         done
+
+        if [[ ${#args[@]} -lt 1 ]]; then error "no arguments supplied"; return; fi
+        local to="${args[0]}"
+
+        local ip="${ssh_ip[$to]}"
+        if [[ -z "$ip" ]]; then
+                ip="$to"
+        fi
+        if [[ -z "$port" ]]; then
+                local port="${ssh_port[$to]}"
+        fi
 
         local options_port=""
         if [[ ! -z "${port}" ]]; then
@@ -90,6 +108,172 @@ alias xps1="cs xps1"
 alias xps2="cs xps2"
 alias istanbul="cs istanbul"
 alias cozy="cs cozy"
+
+# connect ssh copy
+
+function cscp() {
+        local funcname=${FUNCNAME[0]}
+        function usage() {
+                printf "usage: ${funcname} [ip] [path] (-uP) - [ip] [path] (-up)\n"
+                printf "       %${#funcname}s ^~~source~~~~~~~~   ^~~target~~~~~~~~\n" ""
+                printf "registered ip names: local ${!ssh_ip[*]}\n"
+        }
+        function error() {
+                printf "error: ${1}\n" 1>&2
+                usage 1>&2
+        }
+
+        local options_global=""
+        
+        # parse source
+        local username_src="${ssh_username_default}"
+        local port_src=""
+        local options_src="${ssh_options_default}"
+        local args_src=()
+        while [[ $# -ge 1 ]]; do
+                case ${1} in
+                -h|-\?|--help)
+                        usage; return
+                        ;;
+                -P|--port)
+                        if [[ $# -ge 2 ]]; then
+                                port_src="${2}"
+                                shift
+                        else
+                                error "no port supplied"; return
+                        fi
+                        ;;
+                -u|--user)
+                        if [[ $# -ge 2 ]]; then
+                                username_src="${2}"
+                                shift
+                        else
+                                error "no username supplied"; return
+                        fi
+                        ;;
+                -X)
+                        options_src="${options} -X"
+                        ;;
+
+                -)
+                        # proceed to target options
+                        shift; break
+                        ;;
+                --)
+                        # no more arguments
+                        shift; break
+                        ;;
+                -*)
+                        # pass to scp
+                        options_global="${options_global} ${1}"
+                        ;;
+                *)
+                        args_src+=(${1})
+                esac
+                shift
+        done
+
+        if [[ ${#args_src[@]} -lt 1 ]]; then error "no arguments supplied"; return; fi
+        local src="${args_src[0]}"
+        local path_src=${args_src[@]:1}
+
+        local pathprefix_src=""
+        if [[ "$src" != "local" ]]; then
+                local ip_src="${ssh_ip[$src]}"
+                if [[ -z "$ip_src" ]]; then
+                        ip_src="$src"
+                fi
+                pathprefix_src="${username_src}@${ip_src}:"
+        fi
+
+        if [[ -z "$port_src" ]]; then
+                local port_src="${ssh_port[$src]}"
+        fi
+        local options_port_src=""
+        if [[ ! -z "${port_src}" ]]; then
+                options_port_src="-P ${port_src}"
+        fi
+        options_src="${options_src} ${options_port_src}"
+
+        local scp_src="${options_src}"
+        for p in ${path_src}; do
+                scp_src="${scp_src} ${pathprefix_src}${p}"
+        done
+
+        # parse target
+        local username_tgt="${ssh_username_default}"
+        local port_tgt=""
+        local options_tgt="${ssh_options_default}"
+        local args_tgt=()
+        while [[ $# -ge 1 ]]; do
+                case ${1} in
+                -h|-\?|--help)
+                        usage; return
+                        ;;
+                -P|--port)
+                        if [[ $# -ge 2 ]]; then
+                                port_tgt="${2}"
+                                shift
+                        else
+                                error "no port supplied"; return
+                        fi
+                        ;;
+                -u|--user)
+                        if [[ $# -ge 2 ]]; then
+                                username_tgt="${2}"
+                                shift
+                        else
+                                error "no username supplied"; return
+                        fi
+                        ;;
+                -X)
+                        options_tgt="${options} -X"
+                        ;;
+
+                --)
+                        # no more arguments
+                        shift; break
+                        ;;
+                -*)
+                        # pass to scp
+                        options_global="${options_global} ${1}"
+                        ;;
+                *)
+                        args_tgt+=(${1})
+                esac
+                shift
+        done
+
+        if [[ ${#args_tgt[@]} -lt 1 ]]; then error "no arguments supplied"; return; fi
+        local tgt="${args_tgt[0]}"
+        local path_tgt=${args_tgt[@]:1}
+
+        local pathprefix_tgt=""
+        if [[ "$tgt" != "local" ]]; then
+                local ip_tgt="${ssh_ip[$tgt]}"
+                if [[ -z "$ip_tgt" ]]; then
+                        ip_tgt="$tgt"
+                fi
+                pathprefix_tgt="${username_tgt}@${ip_tgt}:"
+        fi
+        
+        if [[ -z "$port_tgt" ]]; then
+                local port_tgt="${ssh_port[$tgt]}"
+        fi
+
+        local options_port_tgt=""
+        if [[ ! -z "${port_tgt}" ]]; then
+                options_port_tgt="-P ${port_tgt}"
+        fi
+        options_tgt="${options_tgt} ${options_port_tgt}"
+
+        local scp_tgt="${options_tgt} ${pathprefix_tgt}${path_tgt}"
+
+        # call scp
+        # printf "scp ${options_global} ${scp_src} ${scp_tgt}\n"
+        scp ${options_global} ${scp_src} ${scp_tgt}
+}
+
 
 function hgclonework() {
         local name="${1}"; shift
