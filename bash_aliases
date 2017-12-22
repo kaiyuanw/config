@@ -17,7 +17,7 @@ ssh_options_default=""
 
 declare -A ssh_ip=(
         ["xps1"]="xps1.ece.utexas.edu" # "10.157.89.54"
-        ["xps2"]="10.157.90.132" # "xps2.ece.utexas.edu"
+        ["xps2"]="xps2.ece.utexas.edu" # "10.157.89.55"
         ["istanbul"]="istanbul.ece.utexas.edu" # "10.157.90.137"
         ["cozy"]="cozy.ece.utexas.edu"
 )
