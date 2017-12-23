@@ -108,6 +108,9 @@ Return a list of installed packages or nil for every skipped package."
 ;; COMPlete ANYthing
 (add-hook 'after-init-hook 'global-company-mode)
 
+                                        ; disable in shell mode
+(add-hook 'shell-mode-hook (lambda () (company-mode -1)) 'append)
+
                                         ; show time
 (setq company-idle-delay 0.3)
 (setq company-echo-delay 0)
