@@ -41,10 +41,22 @@ if [[ "${MACHINE}" == "xps2" ]]; then
 fi
         
 # Java
+
+## Java 9
+export JAVA9_VERSION="9.0.1"
+export JAVA9_HOME="${HOME}/opt/jdk-${JAVA9_VERSION}"
+
+## Java 8
 export JAVA8_VERSION="152"
 export JAVA8_HOME="${HOME}/opt/jdk1.8.0_${JAVA8_VERSION}"
+
+## Java 7 @Deprecated
+export JAVA7_VERSION="80"
+export JAVA7_HOME="${HOME}/opt/jdk1.7.0_${JAVA7_VERSION}"
+
 export JAVA_HOME=${JAVA8_HOME}
 export CLASSPATH="."
+
 # xps2 Java
 if [[ "${MACHINE}" == "xps2" ]]; then
         export JAVA7_HOME="/home/celik/opt/jdk1.7.0_72"
@@ -53,6 +65,7 @@ if [[ "${MACHINE}" == "xps2" ]]; then
 fi
 
 export PATH="$JAVA_HOME/bin:$PATH"
+
 
 # llvm
 export LLVM_SRC_PATH="${HOME}/opt/llvm/llvm_repo"

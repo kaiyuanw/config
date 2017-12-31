@@ -132,6 +132,9 @@ Return a list of installed packages or nil for every skipped package."
    ((((type x)) (:inherit company-tooltip-selection :weight bold))
     (t (:inherit company-tooltip-selection)))))
 
+                                        ; case sensitive
+(setq company-dabbrev-downcase nil)
+
 ;; gscholar-bibtex
 (setq gscholar-bibtex-default-source "Google Scholar")
 (setq gscholar-bibtex-database-file "~/projects/research/bib.bib")
