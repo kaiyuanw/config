@@ -337,7 +337,7 @@ alias grun='java org.antlr.v4.gui.TestRig'
 export PATH="/usr/local/cuda-9.0/bin:$PATH"
 
 # maven
-function mvn_init() {
+function mvn-init() {
         local groupId="${1}"; shift
         local artifactId="${1}"; shift
 
@@ -345,4 +345,15 @@ function mvn_init() {
             -DarchetypeGroupId=org.apache.maven.archetypes \
             -DgroupId="${groupId}" \
             -DartifactId="${artifactId}"
+}
+
+# onedrive
+
+function onedrive-start() {
+        systemctl --user enable onedrive
+        systemctl --user start onedrive
+}
+
+function onedrive-log() {
+        journalctl --user-unit onedrive -f
 }
