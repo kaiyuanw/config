@@ -1,3 +1,10 @@
+;;;; Initialize
+
+;; Server (daemon mode)
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+
 ;;;; PACKAGES
 
 (require 'package)
@@ -48,11 +55,6 @@ Return a list of installed packages or nil for every skipped package."
 (package-initialize)
 
 ;;;; COSTUMIZE
-
-;; Server (daemon mode)
-(require 'server)
-(unless (server-running-p)
-  (server-start))
 
 ;; edit-server
 (require 'edit-server)
