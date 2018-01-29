@@ -322,9 +322,6 @@ alias web='google-chrome'
 alias g='git status -s; git status -s | rev | cut -d " " -f 1 | rev; git status -s | rev | cut -d " " -f 1 | rev | xargs echo'
 alias gg='git fetch && git rebase && git push'
 
-# make
-alias cleanmake='make clean && make'
-
 # spoon
 alias spoon='java -cp $HOME/opt/spoon.jar'
 
@@ -338,6 +335,7 @@ export PATH="/usr/local/cuda-9.0/bin:$PATH"
 
 # maven
 function mvn-init() {
+        # TODO separate by ":"
         local groupId="${1}"; shift
         local artifactId="${1}"; shift
 
@@ -356,4 +354,17 @@ function onedrive-start() {
 
 function onedrive-log() {
         journalctl --user-unit onedrive -f
+}
+
+# paper
+function make-again() {
+        local cmd="$1"; shift
+        
+        make clean && make ${cmd}
+}
+
+function paper() {
+        local which="main.pdf"; if [[ $# -ge 1 ]]; then which="$1"; shift; fi
+
+        evince "$which" &
 }
