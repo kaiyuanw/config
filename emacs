@@ -5,56 +5,63 @@
 (unless (server-running-p)
   (server-start))
 
+;; Load loop macro
+(require 'cl)
+
 ;;;; PACKAGES
 
 (require 'package)
-
-(add-to-list 'package-archives
-             '("MELPA Stable" . "https://stable.melpa.org/packages/"))
-
-(add-to-list 'package-archives          
-             '("MELPA" . "https://melpa.org/packages/"))
-
-(defun ensure-package-installed (&rest packages)
-  "Assure every package is installed, ask for installation if it’s not.
-Return a list of installed packages or nil for every skipped package."
-  (mapcar
-   (lambda (package)
-     ;; (package-installed-p 'evil)
-     (if (package-installed-p package)
-         nil
-       (if (y-or-n-p (format "Package %s is missing. Install it? " package))
-           (package-install package)
-         package)))
-   packages))
-
-(unless package-archive-contents
-  (package-refresh-contents))
+(setq package-archives
+      '(
+        ;("MELPA Stable" . "https://stable.melpa.org/packages/")
+        ("MELPA" . "https://melpa.org/packages/")
+        ))
 
 (package-initialize)
 
-(ensure-package-installed
- 'flyspell
- ;; 'auto-complete
- 'company
- 'fuzzy
- 'gscholar-bibtex
- 'google-this
- 'cuda-mode
- 'edit-server
- ;; 'irony
- ;; 'company-irony
- 'quelpa
- 'highlight-parentheses
- )
+(defvar required-packages '(
+                            flyspell
+                            ;; auto-complete
+                            company
+                            fuzzy
+                            gscholar-bibtex
+                            google-this
+                            cuda-mode
+                            edit-server
+                            ;; irony
+                            ;; company-irony
+                            quelpa
+                            highlight-parentheses
+                            )
+  "A list of packages to ensure are installed at launch.")
 
-(package-initialize)
+(setq use-package-verbose t)  ;; Show package load times.
 
+(defun required-packages-installed-p ()
+  (loop for p in required-packages
+        when (not (package-installed-p p)) do (return nil)
+        finally (return t)))
+
+(unless (required-packages-installed-p)
+  ;; check for new packages (package versions)
+  (message "%s" "Emacs Required is now refreshing its package database...")
+  (package-refresh-contents)
+  (message "%s" " done.")
+  ;; install the missing packages
+  (dolist (p required-packages)
+    (when (not (package-installed-p p))
+      (package-install p))))
+
+;; Quelpa packages
 (quelpa '(emacs-pager :repo "mbriggs/emacs-pager" :fetcher github))
 
-(package-initialize)
-
 ;;;; COSTUMIZE
+
+;; yes/no -> y/n
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; input method
+(setq default-input-method 'TeX) ; todo consider math-symbol-lists package
 
 ;; edit-server
 (require 'edit-server)
