@@ -105,7 +105,7 @@
                                         ; color
 (custom-set-faces
  '(company-preview
-   ((t (:foreground "#606060" :underline t))))
+   ((t (:foreground "#606060" :background "#d1ffd1" :underline t))))
  '(company-preview-common
    ((t (:inherit company-preview))))
  '(company-tooltip
