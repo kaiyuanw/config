@@ -179,9 +179,12 @@
 
 ;; mode bar
                                         ; space
-(setq mode-line-front-space "☯ ")
-(setq mode-line-end-spaces "☯")
-;; (setq mode-line-end-spaces "X")
+(setq mode-line-front-space "{")
+(setq mode-line-end-spaces "}")
+;; (setq mode-line-front-space "☯ ")
+;; (setq mode-line-end-spaces "⚝ ")
+;; (setq mode-line-front-space "🀋 ")
+;; (setq mode-line-end-spaces "🀇 🀇 🀇 🀈 🀉 🀊 🀋 🀌 🀍 🀎 🀏 🀏 🀏 ")
                                         ; line & column number
 (line-number-mode 1)
 (column-number-mode 1)
@@ -207,6 +210,11 @@
 ;; browse url
 (global-set-key (kbd "M-s M-b") 'browse-url-at-point)
 (global-set-key (kbd "M-s b") 'browse-url)
+
+;; highlight current line
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "#d1ffd1")
+(set-face-foreground 'highlight nil)
 
 
 ;;;;--------------------
