@@ -1,3 +1,6 @@
-- git/hg clone for servers
 
-- tmux
+  - support bib in a better way
+
+  + git/hg clone for servers
+
+  - tmux
