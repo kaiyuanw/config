@@ -99,18 +99,27 @@
                                         ; disable in shell mode
 (add-hook 'shell-mode-hook (lambda () (company-mode -1)) 'append)
                                         ; show time
-(setq company-idle-delay 0.3)
+(setq company-idle-delay 0.2)
+(setq company-tooltip-idle-delay 0.2)
 (setq company-echo-delay 0)
                                         ; color
 (custom-set-faces
  '(company-preview
-   ((t (:foreground "brightblack" :underline t))))
+   ((t (:foreground "#606060" :underline t))))
  '(company-preview-common
    ((t (:inherit company-preview))))
  '(company-tooltip
-   ((t (:background "white" :foreground "black"))))
+   ((t (:background "#e0e0e0" :foreground "#606060"))))
  '(company-tooltip-selection
-   ((t (:background "brightmagenta" :foreground "black"))))
+   ((t (:background "#d0d0ff" :foreground "#000000"))))
+ '(company-scrollbar-bg
+   ((t (:background "#e0e0e0"))))
+ '(company-scrollbar-fg
+   ((t (:background "#606060"))))
+ '(company-tooltip-search
+   ((t (:background "#ffffd1"))))
+ '(company-tooltip-search-selection
+   ((t (:background "#ffffd1"))))
  '(company-tooltip-common
    ((((type x)) (:inherit company-tooltip :weight bold))
     (t (:inherit company-tooltip))))
@@ -119,6 +128,8 @@
     (t (:inherit company-tooltip-selection)))))
                                         ; case sensitive
 (setq company-dabbrev-downcase nil)
+                                        ; show numbers
+(setq company-show-numbers t)
 
 ;; edit-server
 (require 'edit-server)
@@ -167,22 +178,23 @@
 (menu-bar-mode -1)
 
 ;; mode bar
-                                        ; end chars
+                                        ; space
+(setq mode-line-front-space "☯ ")
 (setq mode-line-end-spaces "☯")
 ;; (setq mode-line-end-spaces "X")
-                                        ; Line & Column number
+                                        ; line & column number
 (line-number-mode 1)
 (column-number-mode 1)
 (size-indication-mode 1)
                                         ; color
-(set-face-foreground 'mode-line "black")
-(set-face-background 'mode-line "#afffff")
-(set-face-foreground 'mode-line-inactive "black")
-(set-face-background 'mode-line-inactive "white")
+(set-face-foreground 'mode-line "#000000")
+(set-face-background 'mode-line "#d0d0ff")
+(set-face-foreground 'mode-line-inactive "#606060")
+(set-face-background 'mode-line-inactive "#e0e0e0")
 
 ;; vertical-border
-(set-face-foreground 'vertical-border "white")
-(set-face-background 'vertical-border "white")
+(set-face-foreground 'vertical-border "#e0e0e0")
+(set-face-background 'vertical-border "#e0e0e0")
 
 ;; shell
 (defun new-shell ()
