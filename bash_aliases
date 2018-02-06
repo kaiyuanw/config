@@ -319,7 +319,7 @@ alias gcloud_test='${HOME}/opt/google-cloud-sdk/bin/dev_appserver.py'
 alias web='google-chrome'
 
 # git
-alias g='git status -s; git status -s | rev | cut -d " " -f 1 | rev; git status -s | rev | cut -d " " -f 1 | rev | xargs echo'
+alias g='git status -s | while read -r word1 word2; do echo -e "${word2} ${COLOR_RED}${word1}${COLOR_NO}"; done'
 alias gg='git fetch && git rebase && git push'
 
 # spoon

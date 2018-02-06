@@ -117,3 +117,25 @@ export ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
 
 # google chromium
 export PATH="$PATH:$HOME/opt/depot_tools"
+
+# ANSI escape codes
+## color
+export COLOR_BLACK='\033[0;30m'
+export COLOR_RED='\033[0;31m'
+export COLOR_GREEN='\033[0;32m'
+export COLOR_ORANGE='\033[0;33m'
+export COLOR_BROWN='\033[0;33m'
+export COLOR_BLUE='\033[0;34m'
+export COLOR_PURPLE='\033[0;35m'
+export COLOR_CYAN='\033[0;36m'
+export COLOR_LGRAY='\033[0;37m'
+export COLOR_DGRAY='\033[1;30m'
+export COLOR_LRED='\033[1;31m'
+export COLOR_LGREEN='\033[1;32m'
+export COLOR_YELLOW='\033[1;33m'
+export COLOR_LBLUE='\033[1;34m'
+export COLOR_LPURPLE='\033[1;35m'
+export COLOR_LCYAN='\033[1;36m'
+export COLOR_WHITE='\033[1;37m'
+
+export COLOR_NO='\033[0m'

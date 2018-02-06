@@ -142,6 +142,14 @@
 ;; yes/no -> y/n
 (fset 'yes-or-no-p 'y-or-n-p)
 
+;; forward/backward whitespace
+(global-set-key (kbd "M-<right>") 'forward-whitespace)
+(defun backward-whitespace ()
+  "backward to last whitespace"
+  (interactive)
+  (forward-whitespace -1))
+(global-set-key (kbd "M-<left>") 'backward-whitespace)
+
 ;; input method
 (setq default-input-method 'TeX) ; todo consider math-symbol-lists package
 
