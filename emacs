@@ -1,3 +1,4 @@
+;;;;--------------------
 ;;;; Initialize
 
 ;; Server (daemon mode)
@@ -8,7 +9,9 @@
 ;; Load loop macro
 (require 'cl)
 
-;;;; PACKAGES
+
+;;;;--------------------
+;;;; Packages
 
 (require 'package)
 (setq package-archives
@@ -32,6 +35,10 @@
                             ;; company-irony
                             quelpa
                             highlight-parentheses
+                            shrink-whitespace
+                            undo-tree
+                            browse-kill-ring
+                            define-word
                             )
   "A list of packages to ensure are installed at launch.")
 
@@ -55,17 +62,16 @@
 ;; Quelpa packages
 (quelpa '(emacs-pager :repo "mbriggs/emacs-pager" :fetcher github))
 
-;;;; COSTUMIZE
 
-;; yes/no -> y/n
-(fset 'yes-or-no-p 'y-or-n-p)
+;;;;--------------------
+;;;; Package Settings
 
-;; input method
-(setq default-input-method 'TeX) ; todo consider math-symbol-lists package
+;; gscholar-bibtex
+(setq gscholar-bibtex-default-source "Google Scholar")
+(setq gscholar-bibtex-database-file "~/projects/research/bib.bib")
 
-;; edit-server
-(require 'edit-server)
-(edit-server-start)
+;; shrink-whitespace
+(global-set-key (kbd "M-\\") 'shrink-whitespace)
 
 ;; flyspell
 (add-hook 'text-mode-hook 'flyspell-mode)
@@ -84,46 +90,17 @@
 ;;   )
 ;; (global-set-key (kbd "<f9>") 'flyspell-check-next-highlighted-word)
 
-;; parentheses
+;; highlight-parentheses
 (add-hook 'prog-mode-hook 'highlight-parentheses-mode)
 (add-hook 'prog-mode-hook 'show-paren-mode)
 
-;; eval-buffer
-(global-set-key (kbd "M-<RET>") 'eval-buffer)
-
-;; ;; auto-complete
-;; (require 'auto-complete)
-;; ;; (global-auto-complete-mode t)
-;; ;; (defun auto-complete-mode-maybe ()
-;; ;;   "No maybe for you. Only AC!"
-;; ;;   (unless (minibufferp (current-buffer))
-;; ;;     (auto-complete-mode 1)))
-;; (add-hook 'text-mode-hook 'auto-complete-mode)
-;; (add-hook 'prog-mode-hook 'auto-complete-mode)
-
-;; ; workaround with flyspell
-;; (ac-flyspell-workaround)
-
-;; ; show time
-;; (setq ac-auto-show-menu 0.3)
-
-;; ; color
-;; (set-face-foreground 'ac-completion-face "magenta")
-;; (set-face-background 'ac-selection-face "magenta")
-
-;; ; keybinding
-;; (define-key ac-mode-map (kbd "C-TAB") 'auto-complete)
-
 ;; COMPlete ANYthing
 (add-hook 'after-init-hook 'global-company-mode)
-
                                         ; disable in shell mode
 (add-hook 'shell-mode-hook (lambda () (company-mode -1)) 'append)
-
                                         ; show time
 (setq company-idle-delay 0.3)
 (setq company-echo-delay 0)
-
                                         ; color
 (custom-set-faces
  '(company-preview
@@ -140,28 +117,55 @@
  '(company-tooltip-common-selection
    ((((type x)) (:inherit company-tooltip-selection :weight bold))
     (t (:inherit company-tooltip-selection)))))
-
                                         ; case sensitive
 (setq company-dabbrev-downcase nil)
 
-;; gscholar-bibtex
-(setq gscholar-bibtex-default-source "Google Scholar")
-(setq gscholar-bibtex-database-file "~/projects/research/bib.bib")
+;; edit-server
+(require 'edit-server)
+(edit-server-start)
+
+;; undo-tree
+(require 'undo-tree)
+(global-undo-tree-mode t)
+
+;; browse-kill-ring
+(browse-kill-ring-default-keybindings)
+
+;; define-word
+(global-set-key (kbd "M-s M-d") 'define-word-at-point)
+(global-set-key (kbd "M-s d") 'define-word)
+
+
+;;;;--------------------
+;;;; Customize
+
+;; yes/no -> y/n
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; input method
+(setq default-input-method 'TeX) ; todo consider math-symbol-lists package
+
+;; eval-buffer
+(global-set-key (kbd "M-<RET>") 'eval-buffer)
+
+;; Reload .emacs.
+(global-set-key (kbd "M-<f12>")
+  '(lambda () (interactive) (load-file "~/.emacs")))
+
+;; C-x k kill this buffer
+(global-set-key (kbd "C-x k") 'kill-this-buffer)
 
 ;; NO menu bar
 (menu-bar-mode -1)
 
 ;; mode bar
-
                                         ; end chars
-;; (setq mode-line-end-spaces "☯")
-(setq mode-line-end-spaces "X")
-
+(setq mode-line-end-spaces "☯")
+;; (setq mode-line-end-spaces "X")
                                         ; Line & Column number
 (line-number-mode 1)
 (column-number-mode 1)
 (size-indication-mode 1)
-
                                         ; color
 (set-face-foreground 'mode-line "black")
 (set-face-background 'mode-line "#afffff")
@@ -180,7 +184,13 @@
     (shell (concat "*" shell-name "*"))))
 (global-set-key (kbd "M-s M-s") 'new-shell)
 
-;;;; EDITOR
+;; browse url
+(global-set-key (kbd "M-s M-b") 'browse-url-at-point)
+(global-set-key (kbd "M-s b") 'browse-url)
+
+
+;;;;--------------------
+;;;; Languages
 
 ;; No tabs, indentation 4
 (setq-default indent-tabs-mode nil)
@@ -192,7 +202,7 @@
             (make-local-variable 'js-indent-level)
             (setq js-indent-level 4)))
 
-;; SHELL
+;; Bash
 
                                         ; Shell indentation 8
 (setq sh-basic-offset 8
