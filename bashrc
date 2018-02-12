@@ -12,12 +12,6 @@ fi
 # user local program
 export PATH="$HOME/bin:$PATH"
 
-# ssh agent & key
-if [[ -z "${SSH_AUTH_SOCK}" ]]; then
-        eval $(ssh-agent)
-        ssh-add
-fi
-
 # shared aliases
 if [[ -f ${_DIR}/bash_aliases ]]; then
         . ${_DIR}/bash_aliases
@@ -47,14 +41,14 @@ export JAVA9_VERSION="9.0.1"
 export JAVA9_HOME="${HOME}/opt/jdk-${JAVA9_VERSION}"
 
 ## Java 8
-export JAVA8_VERSION="152"
+export JAVA8_VERSION="162"
 export JAVA8_HOME="${HOME}/opt/jdk1.8.0_${JAVA8_VERSION}"
 
 ## Java 7 @Deprecated
 export JAVA7_VERSION="80"
 export JAVA7_HOME="${HOME}/opt/jdk1.7.0_${JAVA7_VERSION}"
 
-export JAVA_HOME=${JAVA8_HOME}
+export JAVA_HOME=${JAVA7_HOME}
 export CLASSPATH="."
 
 # xps2 Java
@@ -66,76 +60,8 @@ fi
 
 export PATH="$JAVA_HOME/bin:$PATH"
 
+export MAVEN_HOME="${HOME}/opt/apache-maven-3.5.2"
+export PATH="${MAVEN_HOME}/bin:$PATH"
 
-# llvm
-export LLVM_SRC_PATH="${HOME}/opt/llvm/llvm_repo"
-export LLVM_BUILD_PATH="${HOME}/opt/llvm/build"
-
-export LLVM_SRC_INC="${LLVM_SRC_PATH}/include"
-export LLVM_BUILD_INC="${LLVM_BUILD_PATH}/include"
-
-export CLANG_SRC_INC="${LLVM_SRC_PATH}/tools/clang/include"
-export CLANG_BUILD_INC="${LLVM_BUILD_PATH}/tools/clang/include"
-
-# environment
-## editor
-export EDITOR="emacsclient -n"
-
-## pager
-if [[ $INSIDE_EMACS ]]; then
-        if [[ -e ~/opt/emacs-pager ]]; then
-                export PAGER="emacs-pager"
-        else
-                export PAGER="cat"
-        fi
-elif [[ -x "$(which less)" ]]; then
-        export PAGER="$(which less)"
-        export LESS="-isR"
-        alias lv="less"
-else
-        export PAGER="/bin/more"
-fi
-
-## history
-# Undocumented feature which sets the size to "unlimited".
-# http://stackoverflow.com/questions/9457233/unlimited-bash-history
-export HISTFILESIZE=
-export HISTSIZE=
-export HISTTIMEFORMAT="[%F %T] "
-# Change the file location because certain bash sessions truncate .bash_history file upon close.
-# http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
-export HISTFILE=~/.bash_eternal_history
-# Force prompt to write history after every command.
-# http://superuser.com/questions/20900/bash-history-loss
-PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
-
-## screen
-export TERM=xterm-256color
-
-# Android Studio
-export ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
-
-# google chromium
-export PATH="$PATH:$HOME/opt/depot_tools"
-
-# ANSI escape codes
-## color
-export COLOR_BLACK='\033[0;30m'
-export COLOR_RED='\033[0;31m'
-export COLOR_GREEN='\033[0;32m'
-export COLOR_ORANGE='\033[0;33m'
-export COLOR_BROWN='\033[0;33m'
-export COLOR_BLUE='\033[0;34m'
-export COLOR_PURPLE='\033[0;35m'
-export COLOR_CYAN='\033[0;36m'
-export COLOR_LGRAY='\033[0;37m'
-export COLOR_DGRAY='\033[1;30m'
-export COLOR_LRED='\033[1;31m'
-export COLOR_LGREEN='\033[1;32m'
-export COLOR_YELLOW='\033[1;33m'
-export COLOR_LBLUE='\033[1;34m'
-export COLOR_LPURPLE='\033[1;35m'
-export COLOR_LCYAN='\033[1;36m'
-export COLOR_WHITE='\033[1;37m'
-
-export COLOR_NO='\033[0m'
+export ANT_HOME="${HOME}/opt/apache-ant-1.9.3"
+export PATH="${ANT_HOME}/bin:$PATH"
