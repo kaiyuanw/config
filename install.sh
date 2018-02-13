@@ -1,5 +1,8 @@
 #!/bin/bash
 
+sudo apt-get update
+sudo apt-get install emacs
+
 mkdir $HOME/opt
 mkdir $HOME/projects
 
