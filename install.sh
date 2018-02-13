@@ -13,7 +13,7 @@ sudo apt-get install emacs
         tar xvf $HOME/opt/apache-ant-1.9.3-bin.tar.gz
 )
 
-# rm $HOME/opt/*.tar.gz
+rm $HOME/opt/*.tar.gz
 ssh-keygen -t rsa -C "wangkaiyuanzz@gmail.com"
 
 sudo apt-get install xvfb
