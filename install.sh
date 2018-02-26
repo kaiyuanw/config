@@ -9,6 +9,7 @@ sudo apt-get install emacs
 (
         cd $HOME/opt
         tar xvf $HOME/opt/jdk-7u80-linux-x64.tar.gz
+        tar xvf $HOME/opt/jdk-8u162-linux-x64.tar.gz
         tar xvf $HOME/opt/apache-maven-3.5.2-bin.tar.gz
         tar xvf $HOME/opt/apache-ant-1.9.3-bin.tar.gz
 )
