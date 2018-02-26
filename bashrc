@@ -48,7 +48,7 @@ export JAVA8_HOME="${HOME}/opt/jdk1.8.0_${JAVA8_VERSION}"
 export JAVA7_VERSION="80"
 export JAVA7_HOME="${HOME}/opt/jdk1.7.0_${JAVA7_VERSION}"
 
-export JAVA_HOME=${JAVA7_HOME}
+export JAVA_HOME=${JAVA8_HOME}
 export CLASSPATH="."
 
 # xps2 Java
