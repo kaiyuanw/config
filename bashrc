@@ -48,7 +48,7 @@ export JAVA8_HOME="${HOME}/opt/jdk1.8.0_${JAVA8_VERSION}"
 export JAVA7_VERSION="80"
 export JAVA7_HOME="${HOME}/opt/jdk1.7.0_${JAVA7_VERSION}"
 
-export JAVA_HOME=${JAVA8_HOME}
+export JAVA_HOME=${JAVA7_HOME}
 export CLASSPATH="."
 
 # xps2 Java
@@ -59,6 +59,20 @@ if [[ "${MACHINE}" == "xps2" ]]; then
 fi
 
 export PATH="$JAVA_HOME/bin:$PATH"
+
+java7() {
+        export JAVA_HOME=${JAVA7_HOME}
+        export PATH="$JAVA_HOME/bin:$PATH"
+}
+
+export -f java7
+
+java8() {
+        export JAVA_HOME=${JAVA8_HOME}
+        export PATH="$JAVA_HOME/bin:$PATH"
+}
+
+export -f java8
 
 export MAVEN_HOME="${HOME}/opt/apache-maven-3.5.2"
 export PATH="${MAVEN_HOME}/bin:$PATH"
